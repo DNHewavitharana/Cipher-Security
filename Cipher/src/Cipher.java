@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cipher {
+	
+
 	public static ArrayList textarray= new ArrayList();
 	
 	public static ArrayList permutationarray= new ArrayList();
@@ -12,39 +14,59 @@ public class Cipher {
 	public static Cipher cipherObj=new Cipher();
 	
 	public static int extrawords;
-	public static int[] key;
+	public static int[] key= {0,1,2,3};
+	public static int countx;
 
 	public static void main(String[] args) {
-		System.out.print("Enter the message : ");
+		//System.out.print("Enter the message : ");
+		FileHandler read_obj= new FileHandler();
 		
-		Scanner inputReader=new Scanner(System.in);
-		String readerValue= inputReader.nextLine();
+		String readerValue = read_obj.readFile("Input_file.txt");
 		
+		System.out.println(readerValue);
 		System.out.print("Enter the key : ");
 		
 		Scanner keyReader=new Scanner(System.in);
 		String keyValue= keyReader.nextLine();
-		
-		
+		keysetter(keyValue);
 		
 		extrawords = readerValue.length()%4;
 		while (readerValue.length()%4>0){
 			readerValue+="X";
+			countx+=1;
 		}
 		
+		keysetter(keyValue);
 		cipherObj.setter(readerValue);
 		
 		
 		message.substitue(cipherObj.getter(0));
-		message.substitue(cipherObj.getter(1));
 		message.permutation(cipherObj.getter(1));
-		message.permutation(cipherObj.per_getter(0));
+		message.substitue(cipherObj.getter(2));
+		message.permutation(cipherObj.getter(3));
 		
-		decryptObj.repermutation(cipherObj.per_getter(1));
-		decryptObj.repermutation(cipherObj.per_getter(0));
-		decryptObj.resubstitue(cipherObj.getter(1));
-		decryptObj.resubstitue(cipherObj.getter(1));
+		FileHandler write_obj= new FileHandler();
 		
+		read_obj.writeFile("Encrypt_file.txt", cipherObj.getter(4));
+		
+		System.out.print("Encrypted : ");
+		System.out.println(cipherObj.getter(4));
+		
+		decryptObj.repermutation(cipherObj.getter(4));
+		decryptObj.resubstitue(cipherObj.getter(5), countx);
+		decryptObj.repermutation(cipherObj.getter(6));
+		decryptObj.resubstitue(cipherObj.getter(7), countx);
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print("Encrypted : ");
+		System.out.println(cipherObj.getter(4));
+		System.out.println();
+		
+
+		System.out.print("Decrypted : ");
+		System.out.println(cipherObj.getter(8));
 	}
 	
 	public void setter(String msg){
@@ -67,4 +89,12 @@ public class Cipher {
 	public int[] keygetter(){
 		return key;
 	}
+	public static void  keysetter(String keyValue){
+		for (int v=0; v<keyValue.length();v++){
+			String ch=keyValue.substring(v, v+1);
+			int num=Integer.parseInt(ch);
+			key[v]=num;
+		}
+	}
+	
 }

@@ -5,9 +5,11 @@ public class Decrypt {
 	public static String normalText;
 	//public static ArrayList<Integer> asciiValue= new ArrayList<Integer>();
 	public Cipher cipherObject=new Cipher();
-
+	FileHandler read_obj= new FileHandler();
 	
-	public void resubstitue(String message){
+	
+	
+	public void resubstitue(String message, int countx){
 		normalText="";
 		for (int i=0;i<message.length();i++){
 			int ascii = (int) message.charAt(i)- (message.length()-i);
@@ -16,13 +18,12 @@ public class Decrypt {
 			normalText += newtext;
 		}
 		cipherObject.setter(normalText);
-
-		System.out.println(normalText.substring(0,normalText.length()-1-2));
-		
+		read_obj.writeFile("Output_file.txt", normalText.substring(0,normalText.length()-countx));
 	}
 	
 	public void repermutation(String msg){
-		int[] code ={2,1,3,0};
+		int[] code =cipherObject.keygetter();
+		
 		String permutateResult="";
 		while (msg.length()>0){
 			String repermutText="";
@@ -39,6 +40,7 @@ public class Decrypt {
 			permutateResult += repermutText;
 			msg=msg.substring(4);
 		}
+		cipherObject.setter(permutateResult);
 		System.out.println("permutateResult");
 		System.out.println(permutateResult);
 	}

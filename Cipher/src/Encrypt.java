@@ -17,14 +17,13 @@ public class Encrypt {
 		
 		cipherObject.setter(encryptText);
 		
-		//System.out.println(asciiValue);
 		System.out.println(encryptText);
-		//en_message.desubstitue(encryptText,asciiValue);
+		
 	}
 	
 	public void permutation(String msg){
 		
-		int[] code ={2,1,3,0};
+		int[] code =cipherObject.keygetter();
 		String permutateResult="";
 		while (msg.length()>0){
 			String permutText="";
@@ -40,7 +39,7 @@ public class Encrypt {
 			msg=msg.substring(4);
 		
 		}
-		cipherObject.per_setter(permutateResult);
+		cipherObject.setter(permutateResult);
 
 	}
 }
